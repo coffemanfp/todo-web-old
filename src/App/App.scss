@@ -3,30 +3,47 @@
   min-height: 100vh;
   background-color: #F5F2EA;
 
-  #app__astronaut,
-  #app__scribble,
-  #app__scribble_2,
-  #app__scribble_3 {
+  .app__background {
+    position: relative;
+    min-height: 100vh;
+    min-width: 100vw;
+
+    #app__astronaut,
+    #app__scribble,
+    #app__scribble_2,
+    #app__scribble_3 {
+      position: absolute;
+    }
+  
+    #app__astronaut {
+      top: 0;
+      right: 0;
+    }
+  
+    #app__scribble {
+      top: 30%;
+      left: 12%;
+    }
+  
+    #app__scribble_2 {
+      top: 67%;
+      left: 23%;
+    }
+  
+    #app__scribble_3 {
+      top: 53%;
+      left: 8%;
+    }
+  }
+
+  .app__content {
     position: absolute;
-  }
-
-  #app__astronaut {
     top: 0;
-    right: 0;
-  }
-
-  #app__scribble {
-    top: 30%;
-    left: 12%;
-  }
-
-  #app__scribble_2 {
-    top: 67%;
-    left: 23%;
-  }
-
-  #app__scribble_3 {
-    top: 53%;
-    left: 8%;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
   }
 }

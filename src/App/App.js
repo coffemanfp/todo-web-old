@@ -3,6 +3,8 @@ import img_astronaut from '../_images/astronaut.svg';
 import img_scribble from '../_images/scribble.svg';
 import img_scribble_2 from '../_images/scribble_2.svg';
 import img_scribble_3 from '../_images/scribble_3.svg';
+import { Outlet } from "react-router-dom"
+
 
 function App() {
   return (
@@ -13,6 +15,9 @@ function App() {
         <img src={img_scribble_2} alt="Scribble" id="app__scribble_2" />
         <img src={img_scribble_3} alt="Scribble" id="app__scribble_3" />
       </div>
+      <main className="app__content">
+        <Outlet />
+      </main>
     </div>
   );
 }

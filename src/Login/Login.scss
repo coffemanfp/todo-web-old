@@ -1,0 +1,50 @@
+.login {
+    background-color: white;
+    padding: 55px 60px;
+    border-radius: 44px;
+    text-align: center;
+
+    .login__title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .login__subtitle {
+        margin-bottom: 109px;
+    }
+
+    .login__form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 450px;
+
+        .login__input, .login__submit {
+            width: 100%;
+            padding: 17px;
+            border-radius: 20px;
+        }
+
+        .login__input {
+            border: 1px solid #B7B7B7;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .login__submit {
+            background-color: #FDC886;
+            color: black;
+            border: none;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #sign-in_issues {
+            min-width: 100%;
+            text-align: left;
+            font-size:  .85rem;
+            margin-bottom: 70px;
+        }
+    }
+}
