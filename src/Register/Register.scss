@@ -1,0 +1,48 @@
+.register {
+    background-color: white;
+    padding: 55px 60px;
+    border-radius: 44px;
+    text-align: center;
+
+    .register__title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .register__subtitle {
+        margin-bottom: 40px;
+    }
+
+    .register__form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 450px;
+
+        .register__input, .register__submit {
+            width: 90%;
+            padding: 15px;
+            border-radius: 20px;
+        }
+
+        .register__input {
+            border: 1px solid #B7B7B7;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .register__submit {
+            background-color: #FDC886;
+            color: black;
+            border: none;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+        }
+    }
+
+    .register__indicator {
+        margin-bottom: 40px;
+        font-size: 1.5rem;
+    }
+}

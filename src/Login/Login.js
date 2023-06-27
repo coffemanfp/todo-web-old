@@ -1,5 +1,6 @@
 import React from 'react';
 import './Login.scss';
+import { Link } from 'react-router-dom';
 
 export default function Login() {
     return (
@@ -13,7 +14,7 @@ export default function Login() {
                 <a href="#" className="login__link" id="sign-in_issues">Having trouble in sign in?</a>
 
                 <button type="submit" className="login__submit">Sign in</button>
-                <p className="login__text">Don't have an account? <a href="#" className="login__link">Register!</a></p>
+                <p className="login__text">Don't have an account? <Link to="../register" className="login__link">Register!</Link></p>
             </form>
         </div>
     )
