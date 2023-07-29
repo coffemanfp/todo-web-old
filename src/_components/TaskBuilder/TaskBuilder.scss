@@ -1,0 +1,26 @@
+.task-builder {
+    background-color: white;
+    width: 80%;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px 0 15px;
+    box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+
+    .task-builder__buttons {
+        margin-left: 100px;
+        min-width: 89px;
+    }
+
+    .task-builder__input {
+        border: none;
+        flex-basis: 100%;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
