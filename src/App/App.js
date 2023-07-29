@@ -18,6 +18,9 @@ function App() {
       <main className="app__content">
         <Outlet />
       </main>
+      <footer className="app__footer">
+        <p className="app__phrase">Success is not the key to happiness; happiness is the key to success.</p>
+      </footer>
     </div>
   );
 }

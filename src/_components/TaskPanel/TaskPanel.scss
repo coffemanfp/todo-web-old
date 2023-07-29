@@ -1,0 +1,93 @@
+.task-panel {
+    position: relative;
+    background-color: white;
+    height: 100%;
+    width: 400px;
+    border-radius: 25px;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 20px 25px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    .task-panel__container {
+        .task-panel__button {
+            margin: 10px 0 10px 0;
+        }
+    }
+
+    .task-panel__button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 5px 0 5px 0;
+        margin: 20px 0 20px 0;
+        width: 100%;
+
+        &::before {
+            transition: 0.3s;
+            position: absolute;
+            content: '';
+            height: 100%;
+            width: 2px;
+            background-color: rgb(100, 100, 100);
+        }
+
+        &:hover {
+            background-color: rgba(255, 249, 241, 0.93);
+
+            .task-panel__button-icon {
+                margin: 0 20px 0 20px;
+            }
+
+            &::before {
+                width: 5px;
+                background-color: #b0926c;
+            }
+        }
+
+        .task-panel__button-icon {
+            transition: 0.3s;
+            margin: 0 17px 0 17px;
+        }
+    }
+
+    .task-panel__description {
+        width: 100%;
+        padding: 20px;
+        border: none;
+        box-sizing: border-box;
+        border: 1px solid #bdbdbd;
+        height: 100px;
+        border-radius: 25px;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .task-panel__footer {
+        position: absolute;
+        bottom: 15px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        background-color: rgb(100, 100, 100);
+
+        .task-panel__footer-button {
+            flex-basis: 49.85%;
+            background-color: white;
+            padding: 15px;
+
+        }
+
+        .task-panel__footer-button--remove>i {
+            color: rgb(225, 25, 25);
+        }
+    }
+
+    .task {
+        border-radius: 0;
+        box-shadow: none;
+    }
+}

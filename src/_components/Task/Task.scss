@@ -1,0 +1,26 @@
+.task {
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    margin: 15px 0 15px 0;
+    border-radius: 25px;
+    padding: 0 15px 0 15px;
+    box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        background-color: rgba(255, 249, 241, 0.93);
+    }
+
+    .task__indicator>i {
+        color: #b0926c;
+    }
+
+    .task__title {
+        flex-basis: 100%;
+        word-wrap: break-word;
+        word-break: break-word;
+        margin: 0 15px 0 15px;
+        padding: 10px 0 10px 0;
+    }
+}

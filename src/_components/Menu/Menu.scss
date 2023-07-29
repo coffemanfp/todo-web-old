@@ -1,0 +1,83 @@
+$menu_icons_margin_left: 17px;
+
+.menu {
+    background-color: white;
+    height: 100%;
+    width: 300px;
+    border-radius: 25px;
+    padding: 40px;
+    box-sizing: border-box;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+    .menu__item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        font-weight: normal;
+
+        &:hover {
+            &::after {
+                top: 0;
+                bottom: 0;
+                right: 99%;
+            }
+
+            .menu__item-icon {
+                margin-left: 15px;
+            }
+        }
+
+        &::after {
+            $transit_duration: 0.3s;
+            $transit_timing_func: linear;
+            transition: bottom $transit_duration $transit_timing_func, top $transit_duration $transit_timing_func, ;
+            position: absolute;
+            content: '';
+            top: 50%;
+            bottom: 50%;
+            left: 0;
+            right: 100%;
+            background-color: black;
+        }
+
+        .menu__item-icon {
+            transition: 0.3s;
+            margin-right: $menu_icons_margin_left;
+        }
+    }
+
+    .menu__separator {
+        border: none;
+        height: 1px;
+        width: 90%;
+        background-color: rgb(114, 114, 114);
+        margin: 30px auto 30px auto;
+    }
+
+}
+
+.custom-list-adder {
+    display: flex;
+    $color: #7d623f;
+
+    .custom-list-adder__input {
+        font-size: 1rem;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+
+        &::placeholder {
+            color: $color;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .custom-list-adder__icon {
+        margin-right: $menu_icons_margin_left;
+        color: $color;
+    }
+}
