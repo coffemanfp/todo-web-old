@@ -6,24 +6,29 @@ import { Provider } from 'react-redux'
 import App from './App/App'
 import Login from './Login/Login'
 import Register from './Register/Register'
-import {store} from './_store/store'
+import { store } from './_store/store'
+import Dashboard from './Dashboard/Dashboard'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children:
-    [
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      }
-    ]
+      [
+        {
+          path: "login",
+          element: <Login />,
+        },
+        {
+          path: "register",
+          element: <Register />,
+        },
+      ]
   },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+  }
 ])
 
 createRoot(document.getElementById("root")).render(

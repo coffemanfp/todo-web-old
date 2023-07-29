@@ -3,7 +3,7 @@ import './Register.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import Spinner from '../_elements/Spinner/Spinner';
+import Spinner from '../_components/Spinner/Spinner';
 import { authActions } from '../_store/authSlice';
 
 export default function Register() {
@@ -55,7 +55,7 @@ export default function Register() {
                 {errorsHandler("email", errors.email?.type)}
 
                 {/* <input placeholder='Password' type="password" name="password" id="password" className="register__input"  {...register("password", { required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/})} /> */}
-                <input placeholder='Password' type="password" name="password" id="password" className="register__input"  />
+                <input placeholder='Password' type="password" name="password" id="password" className="register__input" />
                 {/* {errorsHandler("password", errors.password?.type)} */}
 
                 <button type="submit" className="register__submit">Register</button>
