@@ -26,7 +26,7 @@ const slice = createSlice({
 
 function createInitialState() {
     return {
-        token: JSON.parse(localStorage.getItem('token')),
+        token: localStorage.getItem('token'),
         status: 'idle',
         error: null
     }
@@ -44,17 +44,26 @@ function createReducers() {
 }
 
 function createExtraActions() {
-    return  {
+    return {
         register: register(),
+        login: login(),
     }
 
     function register() {
         return createAsyncThunk(
             'auth/register',
-            async (user) => {
-                console.log(Date.now())
-                return await fetchWrapper.post(createURL('auth/register'), user)
-        }
+            async user =>
+                await fetchWrapper.post(createURL('auth/register'), user)
+        )
+    }
+
+    function login() {
+        return createAsyncThunk(
+            'auth/login',
+            async user => {
+                console.log(user)
+                return await fetchWrapper.post(createURL('auth/login'), user)
+            }
         )
     }
 }
@@ -62,19 +71,29 @@ function createExtraActions() {
 function createExtraReducers() {
     return {
         ...register(),
+        ...login(),
     }
 
     function register() {
-        var { pending, fulfilled, rejected} = extraActions.register
+        var { pending, fulfilled, rejected } = extraActions.register
+        return signin(pending, fulfilled, rejected)
+    }
+
+    function login() {
+        var { pending, fulfilled, rejected } = extraActions.login
+        return signin(pending, fulfilled, rejected)
+    }
+
+    function signin(pending, fulfilled, rejected) {
         return {
             [pending]: state => {
                 state.error = null
                 state.status = 'loading'
             },
             [fulfilled]: (state, action) => {
-                const token = action.payload
+                const token = action.payload.token
                 state.token = token
-                localStorage.setItem('token', JSON.stringify(token))
+                localStorage.setItem('token', token)
                 state.status = 'completed'
                 state.error = null
             },

@@ -1,10 +1,10 @@
-import React from 'react';
-import './Register.scss';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import Spinner from '../_components/Spinner/Spinner';
-import { authActions } from '../_store/authSlice';
+import React, { useEffect } from 'react'
+import './Register.scss'
+import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import Spinner from '../_components/Spinner/Spinner'
+import { authActions } from '../_store/authSlice'
 
 export default function Register() {
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -25,33 +25,34 @@ export default function Register() {
         const errorAlertText = errorMessages[`${n}-${t}`]
         return errorAlertText && <p role="alert" className="sign-in-form__input-error">{errorAlertText}</p>
     }
-    const onSubmit = user => {
-        dispatch(authActions.register(user))
-    }
+    const onSubmit = user => dispatch(authActions.register(user))
     const registerStatus = useSelector(state => state.auth.status)
     const navigate = useNavigate()
-    console.log(registerStatus)
 
-    let indicator = <Spinner className="register__indicator" />
+    let indicator
+    useEffect(() => {
+        if (registerStatus === 'loading') {
+            indicator = <Spinner className="register__indicator" />
+        } else if (registerStatus === 'completed') {
+            navigate("/dashboard")
+        } else if (registerStatus === 'failed') {
+            indicator = <div className="register__indicator">error</div>
+        }
+    }, [registerStatus, indicator])
 
-    if (registerStatus === 'loading') {
-        indicator = <Spinner className="register__indicator" />
-    } else if (registerStatus === 'completed') {
-        navigate("/dashboard")
-    } else if (registerStatus === 'failed') {
-        indicator = <div className="register__indicator">error</div>
-    }
 
     return (
-        <div className="register" onSubmit={handleSubmit(onSubmit)}>
+        <div className="register">
             <h1 className="register__title">Welcome to the register!</h1>
             <p className="register__subtitle">Who are you?</p>
             {indicator}
-            <form className="register__form">
-                <input placeholder='Nickname' type="text" name="email" id="nickname" className="register__input"  {...register("nickname", { required: true, pattern: /^[a-z0-9_-]{3,16}$/i })} />
+            <form className="register__form" onSubmit={handleSubmit(onSubmit)}>
+                <input placeholder='Nickname' type="text" name="email" id="nickname" className="register__input"
+                    {...register("nickname", { required: true, pattern: /^[a-z0-9_-]{3,16}$/i })} />
                 {errorsHandler("nickname", errors.nickname?.type)}
 
-                <input placeholder='Email' type="text" name="email" id="email" className="register__input" {...register("email", { required: true, pattern: /^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})$/ })} />
+                <input placeholder='Email' type="text" name="email" id="email" className="register__input"
+                    {...register("email", { required: true, pattern: /^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})$/ })} />
                 {errorsHandler("email", errors.email?.type)}
 
                 {/* <input placeholder='Password' type="password" name="password" id="password" className="register__input"  {...register("password", { required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/})} /> */}
