@@ -8,7 +8,6 @@ export default function TaskBuilder() {
     const { register, handleSubmit, reset, formState, formState: { isSubmitSuccessful } } = useForm()
     const dispatch = useDispatch()
     const onSubmit = task => {
-        console.log(task)
         dispatch(taskActions.add(task))
     }
 

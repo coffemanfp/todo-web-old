@@ -8,13 +8,6 @@ import { React, useEffect } from 'react';
 
 
 function App() {
-  const navigate = useNavigate()
-  const token = localStorage.getItem('token')
-
-  useEffect(() => {
-    navigate(token ? '/dashboard' : '/login')
-  }, [token])
-
   return (
     <div className="app">
       <div className="app__background">

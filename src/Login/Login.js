@@ -20,7 +20,6 @@ export default function Login() {
         dispatch(authActions.login(user))
     }
 
-
     useEffect(() => {
         if (loginStatus === "completed") {
             navigate('/dashboard')

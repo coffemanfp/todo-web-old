@@ -56,7 +56,7 @@ export default function Register() {
                 {errorsHandler("email", errors.email?.type)}
 
                 {/* <input placeholder='Password' type="password" name="password" id="password" className="register__input"  {...register("password", { required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/})} /> */}
-                <input placeholder='Password' type="password" name="password" id="password" className="register__input" />
+                <input placeholder='Password' type="password" name="password" id="password" className="register__input" {...register("password", { required: true })} />
                 {/* {errorsHandler("password", errors.password?.type)} */}
 
                 <button type="submit" className="register__submit">Register</button>

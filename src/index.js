@@ -8,6 +8,8 @@ import Login from './Login/Login'
 import Register from './Register/Register'
 import { store } from './_store/store'
 import Dashboard from './Dashboard/Dashboard'
+import TaskPanel from './_components/TaskPanel/TaskPanel'
+import PrivateRoute from './_components/PrivateRoute/PrivateRoute'
 
 const router = createBrowserRouter([
   {
@@ -26,9 +28,21 @@ const router = createBrowserRouter([
       ]
   },
   {
-    path: "dashboard",
-    element: <Dashboard />,
-  }
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+        children:
+          [
+            {
+              path: "task/:taskId",
+              element: <TaskPanel />
+            }
+          ]
+      }
+    ]
+  },
 ])
 
 createRoot(document.getElementById("root")).render(

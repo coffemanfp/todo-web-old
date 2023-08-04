@@ -60,10 +60,8 @@ function createExtraActions() {
     function login() {
         return createAsyncThunk(
             'auth/login',
-            async user => {
-                console.log(user)
-                return await fetchWrapper.post(createURL('auth/login'), user)
-            }
+            async user =>
+                await fetchWrapper.post(createURL('auth/login'), user)
         )
     }
 }

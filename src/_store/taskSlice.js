@@ -7,32 +7,91 @@ const slice = createSlice({
     initialState: createInitialState(),
     extraReducers: createExtraReducers(),
 })
-
 function createInitialState() {
     return {
         tasks: [],
-        state: 'idle'
+        task: {},
+        status: 'idle'
     }
 }
+
 function createExtraActions() {
     return {
         add: addTask(),
+        getAll: getAllTask(),
+        getOne: getOne(),
+        update: updateTask(),
     }
 
     function addTask() {
         return createAsyncThunk(
             'task/add',
-            async task => {
-                console.log(Date.now())
-                return await fetchWrapper.post(createURL('task'), task)
-            }
+            async task =>
+                await fetchWrapper.post(createURL('task'), task)
         )
     }
 
+    function getAllTask() {
+        return createAsyncThunk(
+            'task/getAll',
+            async () =>
+                await fetchWrapper.get(createURL('task'))
+        )
+    }
+
+    function getOne() {
+        return createAsyncThunk(
+            'task/getOne',
+            async id =>
+                await fetchWrapper.get(createURL('task/' + id))
+        )
+    }
+
+    function updateTask() {
+        return createAsyncThunk(
+            'task/update',
+            async task =>
+                await fetchWrapper.put(createURL('task' + (task.id ? '/' + task.id : '')), task)
+        )
+    }
 }
 function createExtraReducers() {
     return {
         ...addTask(),
+        ...getAllTask(),
+        ...getOne(),
+        ...updateTask(),
+    }
+
+    function getAllTask() {
+        var { pending, fulfilled, rejected } = extraActions.getAll
+        return {
+            [pending]: state => {
+                state.status = 'loading'
+            },
+            [fulfilled]: (state, action) => {
+                state.status = 'completed'
+                state.tasks = action.payload
+            },
+            [rejected]: state => {
+                state.status = 'failed'
+            }
+        }
+    }
+    function getOne() {
+        var { pending, fulfilled, rejected } = extraActions.getOne
+        return {
+            [pending]: state => {
+                state.status = 'loading'
+            },
+            [fulfilled]: (state, action) => {
+                state.status = 'completed'
+                state.task = action.payload
+            },
+            [rejected]: state => {
+                state.status = 'failed'
+            }
+        }
     }
 
     function addTask() {
@@ -43,8 +102,24 @@ function createExtraReducers() {
             },
             [fulfilled]: (state, action) => {
                 state.status = 'completed'
+                state.tasks.push(action.payload)
             },
-            [rejected]: (state, action) => {
+            [rejected]: state => {
+                state.status = 'failed'
+            }
+        }
+    }
+
+    function updateTask() {
+        var { pending, fulfilled, rejected } = extraActions.update
+        return {
+            [pending]: state => {
+                state.status = 'loading'
+            },
+            [fulfilled]: state => {
+                state.status = 'completed'
+            },
+            [rejected]: state => {
                 state.status = 'failed'
             }
         }
@@ -52,4 +127,4 @@ function createExtraReducers() {
 }
 
 export const taskActions = { ...slice.actions, ...extraActions }
-export const taskReducer = slice.task
+export const taskReducer = slice.reducer

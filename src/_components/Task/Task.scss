@@ -8,7 +8,7 @@
     padding: 0 15px 0 15px;
     box-shadow: 5px 5px 15px -3px rgba(0, 0, 0, 0.1);
 
-    &:hover {
+    &:hover:not(:focus) {
         background-color: rgba(255, 249, 241, 0.93);
     }
 
@@ -22,5 +22,14 @@
         word-break: break-word;
         margin: 0 15px 0 15px;
         padding: 10px 0 10px 0;
+    }
+
+    .task__title--editable {
+        border: none;
+        background-color: transparent;
+
+        &:focus {
+            outline: none;
+        }
     }
 }
