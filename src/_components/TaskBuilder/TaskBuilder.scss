@@ -13,6 +13,11 @@
     .task-builder__buttons {
         margin-left: 100px;
         min-width: 110px;
+        text-align: right;
+
+        .task-builder__button {
+            padding: 0 4px 0 4px;
+        }
     }
 
     .task-builder__input {
@@ -22,5 +27,15 @@
         &:focus {
             outline: none;
         }
+    }
+
+
+    .task-builder__button-input {
+        height: 0px;
+        width: 0px;
+        visibility: hidden;
+        margin: 0;
+        padding: 0;
+        border: none;
     }
 }

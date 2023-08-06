@@ -53,12 +53,48 @@
                 overflow-y: scroll;
                 padding: 20px;
                 box-sizing: border-box;
+
+                &.dashboard__tasks--done {
+                    margin-top: 40px;
+                    padding: 0;
+                }
             }
 
             .task-builder {
                 width: 100%;
-                margin: 0 auto 0 auto;
+                margin: 0 auto 0px auto;
             }
+        }
+    }
+
+    .dashboard__title {
+        position: relative;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        font-size: 1rem;
+        cursor: pointer;
+        padding-bottom: 15px;
+
+        .dashboard__title-number {
+            margin-left: 10px;
+            font-weight: normal;
+            font-size: 0.95rem;
+        }
+
+        >i {
+            margin-right: 10px;
+        }
+
+        &::after {
+            position: absolute;
+            content: "";
+            bottom: 0;
+            left: 4%;
+            right: 4%;
+            height: 1px;
+            background-color: #e1dfdd;
         }
     }
 }

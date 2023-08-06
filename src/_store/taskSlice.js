@@ -21,6 +21,7 @@ function createExtraActions() {
         getAll: getAllTask(),
         getOne: getOne(),
         update: updateTask(),
+        delete: deleteTask(),
     }
 
     function addTask() {
@@ -54,6 +55,14 @@ function createExtraActions() {
                 await fetchWrapper.put(createURL('task' + (task.id ? '/' + task.id : '')), task)
         )
     }
+    function deleteTask() {
+        return createAsyncThunk(
+            'task/delete',
+            async id => {
+                await fetchWrapper.delete(createURL('task/' + id))
+            }
+        )
+    }
 }
 function createExtraReducers() {
     return {
@@ -61,6 +70,7 @@ function createExtraReducers() {
         ...getAllTask(),
         ...getOne(),
         ...updateTask(),
+        ...deleteTask(),
     }
 
     function getAllTask() {
@@ -112,6 +122,20 @@ function createExtraReducers() {
 
     function updateTask() {
         var { pending, fulfilled, rejected } = extraActions.update
+        return {
+            [pending]: state => {
+                state.status = 'loading'
+            },
+            [fulfilled]: state => {
+                state.status = 'completed'
+            },
+            [rejected]: state => {
+                state.status = 'failed'
+            }
+        }
+    }
+    function deleteTask() {
+        var { pending, fulfilled, rejected } = extraActions.delete
         return {
             [pending]: state => {
                 state.status = 'loading'

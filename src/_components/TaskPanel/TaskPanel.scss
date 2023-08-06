@@ -51,6 +51,24 @@
             transition: 0.3s;
             margin: 0 17px 0 17px;
         }
+
+        &.task-panel__button--remove {
+            $color: rgb(243, 75, 75);
+            color: $color;
+
+            &::before {
+                background-color: $color;
+            }
+
+            &:hover {
+                background-color: rgba($color, 0.1);
+
+            }
+
+            .task-panel__button-icon {
+                color: $color;
+            }
+        }
     }
 
 

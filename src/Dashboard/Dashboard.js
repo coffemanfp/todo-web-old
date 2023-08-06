@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Dashboard.scss'
 import Search from '../_components/Search/Search'
 import UserButton from '../_components/UserButton/UserButton'
@@ -13,6 +13,7 @@ export default function Dashboard() {
     const dispatch = useDispatch()
     const tasks = useSelector(state => state.task.tasks)
     const taskStatus = useSelector(state => state.task.status)
+    const [toggleMenu, setToggleMenu] = useState(true)
     const reloadTasks = () => {
         if (taskStatus === 'idle' || taskStatus === 'completed') {
             dispatch(taskActions.getAll())
@@ -24,11 +25,17 @@ export default function Dashboard() {
         }
     }, [taskStatus, dispatch])
 
-    let content
+    let doneTasks = []
+    let pendingTasks = []
     if (taskStatus === 'completed') {
         const orderedTasks = tasks.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        content = orderedTasks.map(task => {
-            return (<Task key={task.id} task={task} ></Task >)
+        orderedTasks.map(t => {
+            const e = <Task key={t.id} task={t}></Task>
+            if (t.done) {
+                doneTasks.push(e)
+            } else {
+                pendingTasks.push(e)
+            }
         })
     }
 
@@ -36,7 +43,7 @@ export default function Dashboard() {
         <div className="dashboard">
             <div className="dashboard__content">
                 <header className="dashboard__header">
-                    <button className="dashboard__menu-toggler">
+                    <button className="dashboard__menu-toggler" onClick={() => setToggleMenu(!toggleMenu)}>
                         <i className='bx bx-menu-alt-left'></i>
                     </button>
                     <Search className={"dashboard__search"} />
@@ -49,12 +56,22 @@ export default function Dashboard() {
                 </header>
                 <div className="dashboard__container">
                     <aside className="dashboard__aside">
-                        <Menu></Menu>
+                        {toggleMenu && <Menu></Menu>}
                     </aside>
                     <main className="dashboard__main">
                         <TaskBuilder></TaskBuilder>
                         <div className="dashboard__tasks">
-                            {content}
+                            {pendingTasks}
+                            {doneTasks.length > 0 &&
+                                <div className="dashboard__tasks dashboard__tasks--done">
+                                    <p className="dashboard__title">
+                                        <i className='bx bxs-chevron-down'></i>
+                                        Done
+                                        <span className="dashboard__title-number">{doneTasks.length}</span>
+                                    </p>
+                                    {doneTasks}
+                                </div>
+                            }
                         </div>
                     </main>
                     <aside className="dashboard__aside">

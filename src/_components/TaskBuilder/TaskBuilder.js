@@ -25,15 +25,24 @@ export default function TaskBuilder() {
             <input type="text" className="task-builder__input" maxLength={255} autoFocus
                 {...register("title", { required: true, maxLength: 255 })} />
             <div className="task-builder__buttons">
-                <button className="task-builder__due">
+                <label className="task-builder__button">
+                    <input type="date" className="task-builder__button-input"
+                        onClick={e => e.target.showPicker()}
+                        {...register("due_date")} />
                     <i className="bx bx-calendar"></i>
-                </button>
-                <button className="task-builder__notificate">
+                </label>
+                <label className="task-builder__button">
+                    <input type="datetime-local" className="task-builder__button-input"
+                        onClick={e => e.target.showPicker()}
+                        {...register("reminder")} />
                     <i className="bx bx-bell"></i>
-                </button>
-                <button className="task-builder__repeat">
+                </label>
+                <label className="task-builder__button">
+                    <input type="date" className="task-builder__button-input"
+                        onClick={e => e.target.showPicker()}
+                        {...register("repeat")} />
                     <i className="bx bx-repost"></i>
-                </button>
+                </label>
             </div>
         </form>
     )

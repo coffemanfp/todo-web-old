@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './Register.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
@@ -29,23 +29,17 @@ export default function Register() {
     const registerStatus = useSelector(state => state.auth.status)
     const navigate = useNavigate()
 
-    let indicator
     useEffect(() => {
-        if (registerStatus === 'loading') {
-            indicator = <Spinner className="register__indicator" />
-        } else if (registerStatus === 'completed') {
+        if (registerStatus === 'completed') {
             navigate("/dashboard")
-        } else if (registerStatus === 'failed') {
-            indicator = <div className="register__indicator">error</div>
         }
-    }, [registerStatus, indicator])
+    }, [registerStatus])
 
 
     return (
         <div className="register">
             <h1 className="register__title">Welcome to the register!</h1>
             <p className="register__subtitle">Who are you?</p>
-            {indicator}
             <form className="register__form" onSubmit={handleSubmit(onSubmit)}>
                 <input placeholder='Nickname' type="text" name="email" id="nickname" className="register__input"
                     {...register("nickname", { required: true, pattern: /^[a-z0-9_-]{3,16}$/i })} />
@@ -55,9 +49,10 @@ export default function Register() {
                     {...register("email", { required: true, pattern: /^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})$/ })} />
                 {errorsHandler("email", errors.email?.type)}
 
-                {/* <input placeholder='Password' type="password" name="password" id="password" className="register__input"  {...register("password", { required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/})} /> */}
-                <input placeholder='Password' type="password" name="password" id="password" className="register__input" {...register("password", { required: true })} />
-                {/* {errorsHandler("password", errors.password?.type)} */}
+                <input placeholder='Password' type="password" name="password" id="password" className="register__input"
+                    {...register("password", { required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&^])[A-Za-z\d@$!%*?&^]{8,}$/ })}
+                />
+                {errorsHandler("password", errors.password?.type)}
 
                 <button type="submit" className="register__submit">Register</button>
                 <p className="register__text">Already have an account? <Link to="../login" className="register__link">Login!</Link></p>
