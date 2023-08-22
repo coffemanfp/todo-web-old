@@ -14,11 +14,6 @@ export default function Dashboard() {
     const tasks = useSelector(state => state.task.tasks)
     const taskStatus = useSelector(state => state.task.status)
     const [toggleMenu, setToggleMenu] = useState(true)
-    const reloadTasks = () => {
-        if (taskStatus === 'idle' || taskStatus === 'completed') {
-            dispatch(taskActions.getAll())
-        }
-    }
     useEffect(() => {
         if (taskStatus === 'idle') {
             dispatch(taskActions.getAll())
@@ -31,11 +26,7 @@ export default function Dashboard() {
         const orderedTasks = tasks.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         orderedTasks.map(t => {
             const e = <Task key={t.id} task={t}></Task>
-            if (t.done) {
-                doneTasks.push(e)
-            } else {
-                pendingTasks.push(e)
-            }
+            return t.is_done ? doneTasks.push(e) : pendingTasks.push(e)
         })
     }
 
@@ -75,7 +66,7 @@ export default function Dashboard() {
                         </div>
                     </main>
                     <aside className="dashboard__aside">
-                        <Outlet context={[reloadTasks]} />
+                        <Outlet />
                     </aside>
                 </div>
             </div>
