@@ -126,8 +126,11 @@ function createExtraReducers() {
             [pending]: state => {
                 state.status = 'loading'
             },
-            [fulfilled]: state => {
+            [fulfilled]: (state, action) => {
                 state.status = 'completed'
+                state.tasks = state.tasks.map(t =>
+                    t.id === action.meta.arg.id ? action.meta.arg : t
+                )
             },
             [rejected]: state => {
                 state.status = 'failed'
