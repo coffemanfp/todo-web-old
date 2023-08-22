@@ -8,6 +8,16 @@ import { React, useEffect } from 'react';
 
 
 function App() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/dashboard')
+    } else if (window.location.pathname === '/') {
+      navigate('/login')
+    }
+  }, [navigate])
+
   return (
     <div className="app">
       <div className="app__background">
