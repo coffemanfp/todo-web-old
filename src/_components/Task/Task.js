@@ -20,10 +20,6 @@ export default function Task({ task }) {
 
     const data = watch()
 
-    React.useEffect(() => {
-        console.log(formState.isValid, data);
-    }, [formState, data]);
-
     return (
         <form className="task" onSubmit={handleSubmit(onSubmit)} onClick={openTaskPanel} >
             <label className={"task__button task__button--done-toggler" + (is_done ? ' task__button--active' : '')} >
