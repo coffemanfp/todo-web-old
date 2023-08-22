@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './TaskPanel.scss'
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm, useWatch } from 'react-hook-form'
 import { DateTime } from 'luxon'
@@ -9,7 +9,6 @@ import { createURL, fetchWrapper } from '../../_helpers/fetch-wrapper'
 import { deleteFieldsIfEmpty } from '../../_helpers/delete-field-if-empty'
 
 export default function TaskPanel() {
-    const [reloadTasks] = useOutletContext()
     const { taskId } = useParams()
     const [task, setTask] = useState()
     const [getOneTaskStatus, setGetOneTaskStatus] = useState('idle')
@@ -21,18 +20,11 @@ export default function TaskPanel() {
     const onSubmit = task => {
         deleteFieldsIfEmpty(task, ["due_date", "reminder", "repeat"])
         if (taskStatus === 'idle' || taskStatus === 'completed') {
-            const fetchUpdate = async () => {
-                dispatch(taskActions.update(task))
-            }
-            fetchUpdate()
-                .then(() => {
-                    reloadTasks()
-                })
+            dispatch(taskActions.update(task))
         }
     }
     const removeTask = () => {
-        dispatch(taskActions.delete(taskId))
-        reloadTasks()
+        dispatch(taskActions.delete(parseInt(taskId)))
         navigate('../')
     }
 
@@ -65,7 +57,13 @@ export default function TaskPanel() {
     return (
         <form className="task-panel" onSubmit={handleSubmit(onSubmit)}>
             <div className="task">
-                <span className="task__button task__button--indicator"><i className="bx bx-circle"></i></span>
+                <label className={"task__button task__button--done-toggler" + (task?.is_done ? ' task__button--active' : '')} >
+                    <input type="checkbox" className="task__button-input"
+                        {...register("is_done")} />
+                    <i className={"bx " + (task?.is_done ? "bxs-check-circle" : "bx-circle")}
+                        onMouseEnter={e => { if (!e.target.className.includes("bxs-check-circle")) e.target.className = 'bx bx-check-circle' }}
+                        onMouseLeave={e => { if (!e.target.className.includes("bxs-check-circle")) e.target.className = 'bx bx-circle' }}></i>
+                </label>
                 <input type="text" className="task__input task__input--editable"
                     {...register("title", { required: true })} />
                 <label className={"task__button task__button--important-toggler" + (is_important ? ' task__button--active' : '')}>
@@ -73,7 +71,7 @@ export default function TaskPanel() {
                         {...register("is_important")} />
                     <i className={"bx " + (is_important ? "bxs-star" : "bx-star")}></i>
                 </label>
-            </div>
+            </div >
             <label className={"task-panel__button" + (is_added_to_my_day ? ' task-panel__button--active' : '')}>
                 <input type="checkbox" className="task-panel__button-input"
                     {...register("is_added_to_my_day")}

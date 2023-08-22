@@ -10,9 +10,8 @@ export default function Task({ task }) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { is_important, is_done } = useWatch({ control, names: ["is_important", "is_done"] })
-    const onSubmit = task => {
+    const onSubmit = task =>
         dispatch(taskActions.update(task))
-    }
 
     const openTaskPanel = e => {
         if (e.target.className.includes('task__input')) navigate('task/' + task.id.toString())
