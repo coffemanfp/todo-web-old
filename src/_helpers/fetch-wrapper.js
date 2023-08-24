@@ -1,9 +1,9 @@
-import { authActions } from '../_store/authSlice'
-
-export const createURL = url => {
-    return baseURL + url
+export const createURL = (url, params) => {
+    return baseURL + url + (params ? '?' + new URLSearchParams(params) : '')
 }
-const baseURL = 'http://localhost:8080/v1/'
+
+
+const baseURL = process.env.REACT_APP_BASE_URL || 'http://localhost:8080/v1/'
 
 export const fetchWrapper = {
     get: request('GET'),
@@ -32,7 +32,7 @@ function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
     const token = authToken();
     return (!!token && url.startsWith(baseURL))
-        ? { Authorization: `Bearer ${token}`} : {};
+        ? { Authorization: `Bearer ${token}` } : {};
 }
 
 function authToken() {
