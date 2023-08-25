@@ -5,7 +5,7 @@ import { taskActions } from '../../_store/taskSlice'
 import { useForm } from 'react-hook-form'
 
 export default function TaskBuilder() {
-    const { register, handleSubmit, reset, formState, formState: { isSubmitSuccessful } } = useForm()
+    const { register, handleSubmit, reset, formState } = useForm()
     const dispatch = useDispatch()
     const onSubmit = task => {
         dispatch(taskActions.add(task))
@@ -13,7 +13,7 @@ export default function TaskBuilder() {
 
     useEffect(() => {
         if (formState.isSubmitSuccessful) {
-            reset({ title: "" })
+            reset()
         }
     }, [formState, reset])
 
