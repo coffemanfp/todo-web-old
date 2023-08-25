@@ -27,9 +27,10 @@ export default function Register() {
     const onSubmit = user => dispatch(authActions.register(user))
     const registerStatus = useSelector(state => state.auth.status)
     const navigate = useNavigate()
+    const token = useSelector(state => state.auth.token)
 
     useEffect(() => {
-        if (registerStatus === 'completed') {
+        if (registerStatus === 'completed' && token) {
             navigate("/dashboard")
         }
     }, [registerStatus])
