@@ -11,7 +11,9 @@ function createInitialState() {
     return {
         tasks: [],
         task: {},
-        status: 'idle'
+        status: 'idle',
+        searchStatus: 'idle',
+        fetchedCategory: 'all',
     }
 }
 
@@ -19,6 +21,7 @@ function createExtraActions() {
     return {
         add: addTask(),
         getAll: getAllTask(),
+        search: search(),
         getOne: getOne(),
         update: updateTask(),
         delete: deleteTask(),
@@ -37,6 +40,14 @@ function createExtraActions() {
             'task/getAll',
             async () =>
                 await fetchWrapper.get(createURL('task'))
+        )
+    }
+
+    function search() {
+        return createAsyncThunk(
+            'task/search',
+            async search =>
+                await fetchWrapper.get(createURL('search', search))
         )
     }
 
@@ -68,6 +79,7 @@ function createExtraReducers() {
     return {
         ...addTask(),
         ...getAllTask(),
+        ...search(),
         ...getOne(),
         ...updateTask(),
         ...deleteTask(),
@@ -82,6 +94,22 @@ function createExtraReducers() {
             [fulfilled]: (state, action) => {
                 state.status = 'completed'
                 state.tasks = action.payload
+            },
+            [rejected]: state => {
+                state.status = 'failed'
+            }
+        }
+    }
+    function search() {
+        var { pending, fulfilled, rejected } = extraActions.search
+        return {
+            [pending]: state => {
+                state.status = 'loading'
+            },
+            [fulfilled]: (state, action) => {
+                state.searchStatus = 'completed'
+                state.tasks = action.payload
+                state.fetchedCategory = action.meta.arg.category
             },
             [rejected]: state => {
                 state.status = 'failed'

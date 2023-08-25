@@ -35,7 +35,6 @@ export default function Register() {
         }
     }, [registerStatus])
 
-
     return (
         <div className="register">
             <h1 className="register__title">Welcome to the register!</h1>

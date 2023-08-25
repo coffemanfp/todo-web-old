@@ -40,7 +40,20 @@ const router = createBrowserRouter([
               element: <TaskPanel />
             }
           ]
-      }
+
+      },
+      {
+        path: "dashboard/:category",
+        element: <Dashboard />,
+        children:
+          [
+            {
+              path: "task/:taskId",
+              element: <TaskPanel />
+            }
+          ]
+
+      },
     ]
   },
 ])
