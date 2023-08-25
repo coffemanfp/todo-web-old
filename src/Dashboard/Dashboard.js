@@ -4,12 +4,21 @@ import Search from '../_components/Search/Search'
 import UserButton from '../_components/UserButton/UserButton'
 import TaskBuilder from '../_components/TaskBuilder/TaskBuilder'
 import Menu from '../_components/Menu/Menu'
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import TaskLoader from '../_components/TaskLoader/TaskLoader'
-
+import { useDispatch } from 'react-redux'
+import { authActions } from '../_store/authSlice'
+ 
 export default function Dashboard() {
     const { category = 'all' } = useParams()
     const [toggleMenu, setToggleMenu] = useState(true)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const signout = () => {
+        dispatch(authActions.logout())
+        navigate('/login')
+    }
 
     return (
         <div className="dashboard">
@@ -35,10 +44,14 @@ export default function Dashboard() {
                         <div className="dashboard__tasks">
                             <TaskLoader filterBy={{ category }} />
                         </div>
+                        <footer className="dashboard__footer">
+                            <button className="dashboard__sign-out" onClick={signout}>Sign out</button>
+                        </footer>
                     </main>
                     <aside className="dashboard__aside">
                         <Outlet />
                     </aside>
+                    
                 </div>
             </div>
         </div>

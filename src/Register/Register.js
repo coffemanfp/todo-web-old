@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import './Register.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import Spinner from '../_components/Spinner/Spinner'
 import { authActions } from '../_store/authSlice'
 
 export default function Register() {
@@ -28,9 +27,10 @@ export default function Register() {
     const onSubmit = user => dispatch(authActions.register(user))
     const registerStatus = useSelector(state => state.auth.status)
     const navigate = useNavigate()
+    const token = useSelector(state => state.auth.token)
 
     useEffect(() => {
-        if (registerStatus === 'completed') {
+        if (registerStatus === 'completed' && token) {
             navigate("/dashboard")
         }
     }, [registerStatus])

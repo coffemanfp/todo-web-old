@@ -10,6 +10,7 @@ export default function Login() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const loginStatus = useSelector(state => state.auth.status)
+    const token = useSelector(state => state.auth.token)
     const onSubmit = user => {
         if (user.email_or_nickname.includes('@')) {
             user.email = user.email_or_nickname
@@ -21,7 +22,7 @@ export default function Login() {
     }
 
     useEffect(() => {
-        if (loginStatus === "completed") {
+        if (loginStatus === "completed" && token) {
             navigate('/dashboard')
         }
     }, [loginStatus])
