@@ -97,4 +97,16 @@
             background-color: #e1dfdd;
         }
     }
+
+    .dashboard__footer {
+        text-align: center;
+
+        .dashboard__sign-out {
+            color: white;
+            background-color: red;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+    }
 }

@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import './Register.scss'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import Spinner from '../_components/Spinner/Spinner'
 import { authActions } from '../_store/authSlice'
 
 export default function Register() {
