@@ -104,7 +104,7 @@ function createExtraReducers() {
         var { pending, fulfilled, rejected } = extraActions.search
         return {
             [pending]: state => {
-                state.status = 'loading'
+                state.searchStatus = 'loading'
             },
             [fulfilled]: (state, action) => {
                 state.searchStatus = 'completed'
@@ -112,7 +112,7 @@ function createExtraReducers() {
                 state.fetchedCategory = action.meta.arg.category
             },
             [rejected]: state => {
-                state.status = 'failed'
+                state.searchStatus = 'failed'
             }
         }
     }
