@@ -13,6 +13,7 @@ function createInitialState() {
         task: {},
         status: 'idle',
         searchStatus: 'idle',
+        fetchedCategory: 'all',
     }
 }
 
@@ -108,6 +109,7 @@ function createExtraReducers() {
             [fulfilled]: (state, action) => {
                 state.searchStatus = 'completed'
                 state.tasks = action.payload
+                state.fetchedCategory = action.meta.arg.category
             },
             [rejected]: state => {
                 state.status = 'failed'

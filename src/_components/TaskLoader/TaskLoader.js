@@ -1,42 +1,25 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { taskActions } from '../../_store/taskSlice'
 import Task from '../Task/Task'
+import { taskCategoryToSearch } from '../../_helpers/task-category-to-search'
+
 
 export default function TaskLoader(props) {
     const dispatch = useDispatch()
     const tasks = useSelector(state => state.task.tasks)
     const searchStatus = useSelector(state => state.task.searchStatus)
-    // useEffect(() => {
-    if (searchStatus === 'idle') {
-        console.log("que?")
-        let search = {}
-        switch (props.filterBy.category) {
-            case 'important':
-                search.isImportant = true
-                break
-            case 'done':
-                search.isDone = true
-                break
-            case 'today':
-                search.isAddedToMyDay = true
-                break
-            case 'planned':
-                search.hasDueDate = true
-                break
-            case 'expireSoon':
-                search.expireSoon = true
-                break
-        }
-        console.log(search)
+    const fetchedCategory = useSelector(state => state.task.fetchedCategory)
+
+    if (searchStatus === 'idle' || (searchStatus === 'completed' && props.filterBy.category !== fetchedCategory)) {
+        let search = taskCategoryToSearch(props.filterBy.category)
+        search.category = props.filterBy.category
         dispatch(taskActions.search(search))
     }
 
-    // }, [searchStatus, dispatch])
     let doneTasks = []
     let pendingTasks = []
     if (searchStatus === 'completed') {
-        console.log("paso por aca")
         const orderedTasks = tasks.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         orderedTasks.map(t => {
             console.log(t)
