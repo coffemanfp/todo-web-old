@@ -32,7 +32,7 @@ export default function TaskPanel() {
         const fetchData = async () => {
             setGetOneTaskStatus('loading')
 
-            await fetchWrapper.get(createURL('task/' + taskId))
+            await fetchWrapper.get(createURL('tasks/' + taskId))
                 .then(task => {
                     setTask(task)
                 })
