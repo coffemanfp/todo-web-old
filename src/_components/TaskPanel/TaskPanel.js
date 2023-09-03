@@ -15,11 +15,12 @@ export default function TaskPanel() {
     const dispatch = useDispatch()
     const taskStatus = useSelector(state => state.task.status)
     const { register, handleSubmit, control, reset } = useForm({ defaultValues: { ...task } })
-    const { due_date, reminder, repeat, is_added_to_my_day, is_important } = useWatch({ control, names: ["due_date", "reminder", "repeat", "is_added_to_my_day", "is_important"] })
+    const { due_date, reminder, repeat, is_added_to_my_day, is_important, categories } =
+        useWatch({ control, names: ["due_date", "reminder", "repeat", "is_added_to_my_day", "is_important", "categories"] })
     const navigate = useNavigate()
     const onSubmit = task => {
         deleteFieldsIfEmpty(task, ["due_date", "reminder", "repeat"])
-            if (taskStatus === 'idle' || taskStatus === 'completed') {
+        if (taskStatus === 'idle' || taskStatus === 'completed') {
             dispatch(taskActions.update(task))
         }
     }
@@ -27,6 +28,7 @@ export default function TaskPanel() {
         dispatch(taskActions.delete(parseInt(taskId)))
         navigate('../')
     }
+    const [isCategoryPickerActive, setIsCategoryPickerActive] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -105,7 +107,20 @@ export default function TaskPanel() {
                     {repeat ? DateTime.fromISO(repeat).toFormat('ccc., LLLL d') : 'Repeat'}
                 </label>
             </div>
-            <button className="task-panel__button"><i className="task-panel__button-icon bx bx-purchase-tag-alt"></i> Pick a category</button>
+            <button className="task-panel__button" onClick={() => setIsCategoryPickerActive(!isCategoryPickerActive)}>
+                <i className="task-panel__button-icon bx bx-purchase-tag-alt"></i><div className="task-panel__categories"></div> Pick a category
+                {isCategoryPickerActive &&
+                    <ul className="category-picker">
+                        <li className="category-picker__option category-picker__option--red">Red</li>
+                        <li className="category-picker__option category-picker__option--blue">Blue</li>
+                        <li className="category-picker__option category-picker__option--yellow">Yellow</li>
+                        <li className="category-picker__option category-picker__option--white">White</li>
+                        <li className="category-picker__option category-picker__option--black">Black</li>
+                        <li className="category-picker__option category-picker__option--orange">Orange</li>
+                        <li className="category-picker__option category-picker__option--purple">Purple</li>
+                    </ul>
+                }
+            </button>
             <textarea className="task-panel__description" placeholder='Add a description...'
                 {...register("description", { maxLength: 5000 })}></textarea>
             <button className="task-panel__button task-panel__button--remove"

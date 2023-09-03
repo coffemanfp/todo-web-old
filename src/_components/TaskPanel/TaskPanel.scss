@@ -124,4 +124,40 @@
         padding: 0;
         border: none;
     }
+
+    .task-panel__button:has(> .category-picker) {
+        position: relative;
+    }
+
+    .category-picker {
+        position: absolute;
+        top: 100%;
+        list-style: none;
+        text-align: left;
+        background-color: #FFFDD0;
+        width: 100px;
+        padding: 20px;
+        box-sizing: border-box;
+
+        &__option {
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 30%;
+                left: -10px;
+                height: 5px;
+                width: 5px;
+            }
+
+            $colors: red, blue, yellow, white, black, orange, purple;
+
+            @each $color in $colors {
+                &.category-picker__option--#{$color}::before {
+                    background-color: $color;
+                }
+            }
+        }
+    }
 }
