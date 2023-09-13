@@ -14,7 +14,7 @@ export default function TaskPanel() {
     const [getOneTaskStatus, setGetOneTaskStatus] = useState('idle')
     const dispatch = useDispatch()
     const taskStatus = useSelector(state => state.task.status)
-    const { register, handleSubmit, control, reset } = useForm({ defaultValues: { ...task } })
+    const { register, handleSubmit, control, reset, setValue } = useForm({ defaultValues: { ...task } })
     const { due_date, reminder, repeat, is_added_to_my_day, is_important, categories } =
         useWatch({ control, names: ["due_date", "reminder", "repeat", "is_added_to_my_day", "is_important", "categories"] })
     const navigate = useNavigate()
@@ -29,6 +29,9 @@ export default function TaskPanel() {
         navigate('../')
     }
     const [isCategoryPickerActive, setIsCategoryPickerActive] = useState(false)
+    let globalCategories = useSelector(state => state.category.categories)
+    let [aux, setAux] = useState(globalCategories)
+    console.log(aux)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,9 +55,66 @@ export default function TaskPanel() {
         }
     }, [taskId])
 
+
     useEffect(() => {
         reset({ ...task })
     }, [reset, task])
+    
+    const removeTaskCategory = e => {
+        const newCategories = categories.filter(c => {
+            return c.color !== e.target.id
+        })
+        setValue('categories', newCategories)
+    }
+
+    const addTaskCategory = e => {
+        console.log("Hola!", e)
+        const newCategory = {
+            name: e.target.id,
+            color: e.target.id,
+        }
+        const newCategories = categories ? [...categories, newCategory] : [newCategory]
+        setValue('categories', newCategories)
+        setIsCategoryPickerActive(false)
+        console.log("----------------")
+        console.log(globalCategories)
+        globalCategories = globalCategories.filter(c => {
+            return c.color !== e.target.id
+        })
+        console.log(globalCategories)
+    }
+
+    const handleCategoryPicker = e => {
+        if (e.target.className === 'task-panel__button') {
+            setIsCategoryPickerActive(!isCategoryPickerActive)
+        }
+    }
+
+    const categoriesMap = new Map(categories?.map(c => [c.id, true]))
+    const categoriesElem = globalCategories?.map(c => {
+        console.log("se colvio a hacer?", c)
+        if (!categoriesMap.has(c.id)) {
+            return (
+                <label key={c.color} className={"category-picker__option category-picker__option--" + c.color}>
+                    Category {c.color}
+                    <input id={c.color} type="checkbox" className="task-panel__button-input"
+                        onClick={addTaskCategory}
+                    />
+                </label>
+            )
+        }
+    })
+
+    const taskCategoriesElem = categories?.map(c => {
+        return (
+            <label key={c.color} className={"task-panel__category task-panel__category--" + c.color}>
+                {c.color}
+                <input id={c.color} type="checkbox" className="task-panel__button-input"
+                    onClick={removeTaskCategory}
+                />
+            </label>
+        )
+    })
 
     return (
         <form className="task-panel" onSubmit={handleSubmit(onSubmit)}>
@@ -107,28 +167,29 @@ export default function TaskPanel() {
                     {repeat ? DateTime.fromISO(repeat).toFormat('ccc., LLLL d') : 'Repeat'}
                 </label>
             </div>
-            <button className="task-panel__button" onClick={() => setIsCategoryPickerActive(!isCategoryPickerActive)}>
-                <i className="task-panel__button-icon bx bx-purchase-tag-alt"></i><div className="task-panel__categories"></div> Pick a category
+            <button type="button" className="task-panel__button" onClick={handleCategoryPicker}>
+                <i className="task-panel__button-icon bx bx-purchase-tag-alt"></i>
+                <div className="task-panel__categories">
+                    {taskCategoriesElem}
+                </div>
+                Pick a category
                 {isCategoryPickerActive &&
                     <ul className="category-picker">
-                        <li className="category-picker__option category-picker__option--red">Red</li>
-                        <li className="category-picker__option category-picker__option--blue">Blue</li>
-                        <li className="category-picker__option category-picker__option--yellow">Yellow</li>
-                        <li className="category-picker__option category-picker__option--white">White</li>
-                        <li className="category-picker__option category-picker__option--black">Black</li>
-                        <li className="category-picker__option category-picker__option--orange">Orange</li>
-                        <li className="category-picker__option category-picker__option--purple">Purple</li>
+                        <input type="text" className="task-panel__button-input"
+                            {...register('categories')}
+                        />
+                        {categoriesElem}
                     </ul>
                 }
             </button>
             <textarea className="task-panel__description" placeholder='Add a description...'
                 {...register("description", { maxLength: 5000 })}></textarea>
-            <button className="task-panel__button task-panel__button--remove"
+            <button type="button" className="task-panel__button task-panel__button--remove"
                 onClick={removeTask}>
                 <i className="task-panel__button-icon bx bx-trash"></i> Delete
             </button>
             <footer className="task-panel__footer">
-                <button className="task-panel__footer-button" onClick={() => navigate('../')}><i className="bx bx-exit"></i></button>
+                <button type="button" className="task-panel__footer-button" onClick={() => navigate('../')}><i className="bx bx-exit"></i></button>
                 <br className="task-panel__footer-separator" />
                 <button type="submit" className="task-panel__footer-button task-panel__footer-button--done"><i className="bx bx-check"></i></button>
             </footer>
