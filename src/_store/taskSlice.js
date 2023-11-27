@@ -31,7 +31,7 @@ function createExtraActions() {
         return createAsyncThunk(
             'task/add',
             async task =>
-                await fetchWrapper.post(createURL('task'), task)
+                await fetchWrapper.post(createURL('tasks'), task)
         )
     }
 
@@ -39,7 +39,7 @@ function createExtraActions() {
         return createAsyncThunk(
             'task/getAll',
             async () =>
-                await fetchWrapper.get(createURL('task'))
+                await fetchWrapper.get(createURL('tasks'))
         )
     }
 
@@ -55,7 +55,7 @@ function createExtraActions() {
         return createAsyncThunk(
             'task/getOne',
             async id =>
-                await fetchWrapper.get(createURL('task/' + id))
+                await fetchWrapper.get(createURL('tasks/' + id))
         )
     }
 
@@ -63,14 +63,14 @@ function createExtraActions() {
         return createAsyncThunk(
             'task/update',
             async task =>
-                await fetchWrapper.put(createURL('task' + (task.id ? '/' + task.id : '')), task)
+                await fetchWrapper.put(createURL('tasks' + (task.id ? '/' + task.id : '')), task)
         )
     }
     function deleteTask() {
         return createAsyncThunk(
             'task/delete',
             async id => {
-                await fetchWrapper.delete(createURL('task/' + id))
+                await fetchWrapper.delete(createURL('tasks/' + id))
             }
         )
     }
