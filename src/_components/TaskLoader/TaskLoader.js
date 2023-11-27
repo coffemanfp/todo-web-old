@@ -22,7 +22,6 @@ export default function TaskLoader(props) {
     if (searchStatus === 'completed') {
         const orderedTasks = tasks.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
         orderedTasks.map(t => {
-            console.log(t)
             const e = <Task key={t.id} task={t}></Task>
             return t.is_done ? doneTasks.push(e) : pendingTasks.push(e)
         })

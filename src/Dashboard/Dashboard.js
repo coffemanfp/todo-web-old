@@ -6,14 +6,20 @@ import TaskBuilder from '../_components/TaskBuilder/TaskBuilder'
 import Menu from '../_components/Menu/Menu'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import TaskLoader from '../_components/TaskLoader/TaskLoader'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { authActions } from '../_store/authSlice'
+import { categoryActions } from '../_store/categorySlice'
  
 export default function Dashboard() {
     const { category = 'all' } = useParams()
     const [toggleMenu, setToggleMenu] = useState(true)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const categoryStatus = useSelector(state => state.category.status)
+
+    if (categoryStatus === 'idle') {
+        dispatch(categoryActions.getAllCategories())
+    }
 
     const signout = () => {
         dispatch(authActions.logout())
